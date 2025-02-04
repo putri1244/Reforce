@@ -26,6 +26,7 @@ import betamindy.world.blocks.logic.*;
 
 import betamindy.world.draw.*;
 */
+import mindustry.world.block.distribution.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.effect.*;
@@ -57,9 +58,9 @@ public class GalaxyBlock{
     public static void load() {
       AConveryor = new Conveyor("Galaxy conveyor"){{
         requiments(Category.distribution, with(Items.galaxrium, 1, Items.tromium, 1, Items.metaglass, 4));
-        health = 550;
-        speed = 0.15f;
-        displaySpeed = 30f;
+        this.health = 550;
+        this.speed = 0.15f;
+        this.displaySpeed = 30f;
         
       }};
     }

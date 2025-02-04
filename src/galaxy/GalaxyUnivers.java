@@ -2,7 +2,7 @@ package galaxy;
 
 import arc.*;
 import arc.func.*;
-import arc.stuct.*;
+import arc.struct.*;
 import mindustry.*;
 import mindustry.game.EventType.*;
 import mindustry.game.*;
@@ -12,8 +12,8 @@ import mindustry.net.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
-import galaxy.comtent.*;
-import galaxy.world.distribution.*;
+import galaxy.content.*;
+import galaxy.world.block.distribution.*;
 
 import static java.lang.Float.*;
 import static mindustry.Vars.*;
