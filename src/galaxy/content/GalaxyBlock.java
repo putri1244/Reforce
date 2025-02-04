@@ -37,7 +37,7 @@ public class GalaxyBlock{
         requiments(Category.distribution, with(Items.galaxrium, 1, Items.tromium, 1, Items.metaglass, 4));
         health = 550;
         speed = 0.15f;
-        displaySpeed 30f;
+        displaySpeed = 30f;
         
       }};
     }

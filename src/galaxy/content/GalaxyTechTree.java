@@ -19,7 +19,7 @@ public class GalaxyTechTree{
       margeNode(conveyor, () -> {
           node(isotopeReactor, () -> {
             
-          };
+          }
       });
     }
 }
