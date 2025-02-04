@@ -17,9 +17,9 @@ public class GalaxyTechTree{
     static TechTree.TechNode context = null;
     public static void load() {
       margeNode(conveyor, () -> {
-          node(isotopeReactor, () -> {
+          node(aconfeyor, () -> {
             
-          }
+          });
       });
     }
 }
