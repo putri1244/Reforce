@@ -5,13 +5,12 @@ import mindustry.content.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
 
-public class aconfeyor extends Block {
+public class AConveyor extends Block {
     private static final int capacity = 3;
     public float speed = 0f; // Kecepatan lebih tinggi dari titanium conveyor
-
     public @Load(value = "@-#1-#2", lengths = {7, 4}) TextureRegion[][] regions;
 
-    public aconveyor(String name) {
+    public AConveyor(String name) {
         super(name);
         rotate = true;
         update = true;
@@ -20,6 +19,4 @@ public class aconfeyor extends Block {
         itemCapacity = capacity;
         priority = TargetPriority.transport;
     }
-
-    
 }
