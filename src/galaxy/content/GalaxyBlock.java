@@ -34,10 +34,11 @@ public class GalaxyBlock{
     public static Block aconveyor;
     public static void load() {
       gconveryor = new Conveyor("Galaxy conveyor"){{
-        requiments(Category.distribution, with(Items.galaxrium, 1, Items.tromium 1, Items.metaglass, 4));
+        requiments(Category.distribution, with(Items.galaxrium, 1, Items.tromium, 1, Items.metaglass, 4));
         health = 550;
         speed = 0.15f;
         displaySpeed 30f;
+        
       }};
     }
 }
