@@ -7,7 +7,7 @@ import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 
-public class GalaxyItem {
+public class GalaxyItems {
     public static Item galaxrium;
     public static void load() {
       galaxrium = new Item("galaxrium", Color.valueOf("6c6bf27")){{
