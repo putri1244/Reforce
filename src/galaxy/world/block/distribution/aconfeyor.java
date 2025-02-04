@@ -11,7 +11,7 @@ public class aconfeyor extends Block {
 
     public @Load(value = "@-#1-#2", lengths = {7, 4}) TextureRegion[][] regions;
 
-    public GalaxyConveyor(String name) {
+    public aconveyor(String name) {
         super(name);
         rotate = true;
         update = true;
