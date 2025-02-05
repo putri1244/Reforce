@@ -23,11 +23,12 @@ jobs:
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v2.0.1
-      with:
-        sdk-version: '30.0.3'
+      with: 
+        sdk-version: 30.0.3
         api-level: 30  # Ganti dengan API level yang sesuai
         target: android-30  # Ganti dengan target yang sesuai
         components: "platform-tools"  # Komponen yang ingin diinsta
+        
         
 
     - name: Install build-tools
