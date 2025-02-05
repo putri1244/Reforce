@@ -32,7 +32,7 @@ public class GalaxyBlock {
     // Tambahkan block baru
     
     public static void load() {
-        CBlock = new Block("block-name") {{
+        CBlock = new Block("CBlock") {{
             health = 100;
             size = 1;
             requirements(Category.defense, ItemStack.with(
@@ -40,7 +40,7 @@ public class GalaxyBlock {
             ));
         }};
         
-        otherBlock = new Block("other-block-name") {{  // Definisikan block baru
+        otherBlock = new Block("otherBlock") {{  // Definisikan block baru
             health = 150;
             size = 2;
             requirements(Category.defense, ItemStack.with(
