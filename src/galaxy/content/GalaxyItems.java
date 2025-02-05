@@ -10,7 +10,7 @@ public class GalaxyItems {
     public static Item galaxrium;
     
     public static void load() {
-        galaxrium = new Item("item-name", Color.valueOf("color")) {{
+        galaxrium = new Item("item-name", Color.valueOf("#cc45f6")) {{
             hardness = 2;
             cost = 1f;
             // Properties lain
