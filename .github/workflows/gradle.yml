@@ -15,6 +15,7 @@ jobs:
     - name: Setup Android SDK Tools
       uses: android-actions/setup-android@v2.0.1
       with:
+        distribution: 'sdk-17'
         sdk-version: '30.0.3'  # Ensure this matches the version you need
     - name: Install build-tools
       run: sdkmanager "build-tools;29.0.3"
