@@ -3,6 +3,8 @@ plugins{
 }
 
 ext{
+    mindustryVersion = 'v146'
+    jabelVersion = "93fde537c7"
     sdkRoot = System.getenv("ANDROID_HOME")
     sdkVersion = '30'
     artifactFilename = "GalaxyUnivers.jar"
@@ -23,9 +25,9 @@ repositories{
 }
 
 dependencies{
-    annotationProcessor 'com.github.Anuken:jabel:0.8.0'
-    compileOnly "com.github.Anuken.MindustryJitpack:core:v144"
-    compileOnly "com.github.Anuken.Arc:arc-core:v144"
+    annotationProcessor 'com.github.Anuken:jabel:$jabelVersion'
+    compileOnly "com.github.Anuken.MindustryJitpack:$mindustryVersion"
+    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
 }
 
 jar.archiveFileName.set("raw-$artifactFilename")
