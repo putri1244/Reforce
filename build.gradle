@@ -34,54 +34,6 @@ jar.archiveFileName.set("raw-$artifactFilename")
 
 def isWindows = System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")
 
-task alphableed {
-    doLast {
-        println "Starting alpha-bleeding process..."
-        
-        // Buat daftar semua file PNG
-        def pngFiles = []
-        file('assets/sprites').eachFileRecurse { file ->
-            if (file.name.endsWith('.png')) {
-                pngFiles << file
-                println "Found PNG: ${file.path}"
-            }
-        }
-        
-        // Proses setiap file PNG
-        pngFiles.each { pngFile ->
-            println "Processing: ${pngFile.path}"
-            
-            exec {
-                workingDir '.'
-                if (System.getProperty('os.name').toLowerCase().contains('windows')) {
-                    commandLine 'cmd', '/c', 'alpha-bleeding-linux.exe', pngFile.path
-                } else {
-                    commandLine './alpha-bleed', pngFile.path
-                }
-                
-                ignoreExitValue = true
-                standardOutput = new ByteArrayOutputStream()
-                errorOutput = new ByteArrayOutputStream()
-                
-                doLast {
-                    println "Output for ${pngFile.name}:"
-                    println standardOutput.toString()
-                    if (errorOutput.toString()) {
-                        println "Errors for ${pngFile.name}:"
-                        println errorOutput.toString()
-                    }
-                    
-                    // Handle output file
-                    def bleedFile = new File(pngFile.parentFile, "${pngFile.name}-bleed")
-                    if (bleedFile.exists()) {
-                        println "Moving bleed file for ${pngFile.name}"
-                        bleedFile.renameTo(pngFile)
-                    }
-                }
-            }
-        }
-    }
-}
 
 task dexify(type: Jar){
     archiveFileName.set(artifactFilename)
