@@ -4,7 +4,6 @@ plugins {
 
 ext {
     mindustryVersion = 'v146'
-    jabelVersion = "93fde537c7"
     sdkRoot = System.getenv("ANDROID_HOME") ?: "path/to/default/android/sdk"
     sdkVersion = '30'
     artifactFilename = "GalaxyUnivers.jar"
@@ -24,7 +23,6 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor "com.github.Anuken:jabel:${jabelVersion}"
     compileOnly "com.github.Anuken.Mindustry:core:${mindustryVersion}"
     compileOnly "com.github.Anuken.Arc:arc-core:${mindustryVersion}"
 }
@@ -49,18 +47,15 @@ task dexify(type: Jar) {
     def dexedArtifact = new File(temporaryDir, "dexed.jar")
 
     doFirst {
-        // Verifikasi SDK root
         if (!sdkRoot) {
             throw new GradleException("ANDROID_HOME environment variable is not set!")
         }
 
-        // Verifikasi file android.jar
         def androidJar = new File("${sdkRoot}/platforms/android-${sdkVersion}/android.jar")
         if (!androidJar.exists()) {
             throw new GradleException("Android platform ${sdkVersion} not found at ${androidJar}")
         }
 
-        //collect dependencies needed for desugaring
         def files = (configurations.compileClasspath.files + 
                     configurations.runtimeClasspath.files + 
                     [androidJar]).collect { it.path }
@@ -110,16 +105,11 @@ task buildMove(dependsOn: build) {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-    
-    // Pengaturan compatibility
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_1_8
-    
     options.compilerArgs += [
-        "-Xlint:deprecation",
-        "--release", "8"
+        "-Xlint:deprecation"
     ]
     
-    // Fork compilation
-    options.fork = true
+    // Gunakan Java 8 untuk kompilasi
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

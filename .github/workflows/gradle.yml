@@ -41,7 +41,7 @@ jobs:
         chmod +x alpha-bleeding-linux.exe
 
     - name: Build with Gradle
-      run: ./gradlew buildDex
+      run: ./gradlew buildDex --info --stacktrace
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
