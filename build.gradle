@@ -1,115 +1,45 @@
-plugins {
-    id "java"
+    plugins {
+    id 'java'
+    id 'io.github.liplum.mgpp' version '1.3.2' // Mindustry Gradle Plugin
 }
 
-ext {
-    mindustryVersion = 'v146'
-    sdkRoot = System.getenv("ANDROID_HOME") ?: "path/to/default/android/sdk"
-    sdkVersion = '30'
-    artifactFilename = "GalaxyUnivers.jar"
-}
-
-group "putri1244"
-
-sourceSets.main {
-    java.srcDir("src/")
-    resources.srcDir("assets/")
-}
+group 'galaxy'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    maven { url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
-    maven { url 'https://www.jitpack.io' }
+    maven { url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compileOnly "com.github.Anuken.Mindustry:core:${mindustryVersion}"
-    compileOnly "com.github.Anuken.Arc:arc-core:${mindustryVersion}"
+    implementation 'org.jetbrains:annotations:24.0.1'
+    compileOnly "com.github.Anuken.Arc:arc-core:v146" // Mindustry core dependency
+    compileOnly "com.github.Anuken.Mindustry:core:v146" // Mindustry core dependency
 }
 
-jar {
-    archiveFileName = "raw-${artifactFilename}"
-    
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+ext {
+    mindustryVersion = 'v146' // Version of Mindustry your mod is compatible with
 }
 
-def isWindows = System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")
-
-task dexify(type: Jar) {
-    archiveFileName = artifactFilename
-    destinationDirectory = file("build/libs")
-
-    def jarArtifact = tasks.jar.archiveFile.get().asFile
-    def dexedArtifact = new File(temporaryDir, "dexed.jar")
-
-    doFirst {
-        if (!sdkRoot) {
-            throw new GradleException("ANDROID_HOME environment variable is not set!")
-        }
-
-        def androidJar = new File("${sdkRoot}/platforms/android-${sdkVersion}/android.jar")
-        if (!androidJar.exists()) {
-            throw new GradleException("Android platform ${sdkVersion} not found at ${androidJar}")
-        }
-
-        def files = (configurations.compileClasspath.files + 
-                    configurations.runtimeClasspath.files + 
-                    [androidJar]).collect { it.path }
-
-        exec {
-            workingDir dexedArtifact.parent
-            def command = ["d8", 
-                         "--min-api", "14",
-                         "--lib", androidJar.path,
-                         "--release",
-                         "--output", dexedArtifact.path,
-                         jarArtifact.path]
-
-            files.each { path ->
-                command.add("--classpath")
-                command.add(path)
-            }
-
-            if (isWindows) {
-                commandLine("cmd", "/c", *command)
-            } else {
-                commandLine(*command)
-            }
-        }
-    }
-
-    from(zipTree(jarArtifact), zipTree(dexedArtifact))
-}
-
-task buildDex {
-    dependsOn "build", "dexify"
-}
-
-task buildMove(dependsOn: build) {
-    doLast {
-        def destination = System.getenv("destination")
-        if (!destination) {
-            throw new GradleException("destination environment variable is not set!")
-        }
-        
-        copy {
-            from "build/libs/raw-${artifactFilename}"
-            into destination
-        }
-    }
+sourceSets {
+    main.java.srcDirs = ['src/main/java']
 }
 
 tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-    options.compilerArgs += [
-        "-Xlint:deprecation"
-    ]
-    
-    // Gunakan Java 8 untuk kompilasi
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['--release', '17']) // Java 8 compatibility
+}
+
+task buildAndroid(type: Exec) {
+    commandLine 'gradlew', 'assembleDebug' // Adjust as necessary for your Android build
+}
+
+task buildDesktop(type: JavaExec) {
+    main = 'com.yourname.mindustrymod.Main' // Replace with your main class
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task buildAll {
+    dependsOn buildAndroid, buildDesktop
 }
