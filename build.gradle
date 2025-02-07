@@ -1,63 +1,87 @@
-plugins{
+plugins {
     id "java"
 }
 
-ext{
+ext {
     mindustryVersion = 'v146'
     jabelVersion = "93fde537c7"
-    sdkRoot = System.getenv("ANDROID_HOME")
+    sdkRoot = System.getenv("ANDROID_HOME") ?: "path/to/default/android/sdk"
     sdkVersion = '30'
     artifactFilename = "GalaxyUnivers.jar"
 }
 
 group "putri1244"
 
-sourceSets.main{
+sourceSets.main {
     java.srcDir("src/")
     resources.srcDir("assets/")
 }
 
-repositories{
+repositories {
     mavenCentral()
-    maven{ url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
-    maven{ url 'https://www.jitpack.io' }
-
+    maven { url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
+    maven { url 'https://www.jitpack.io' }
 }
 
-dependencies{
-    annotationProcessor 'com.github.Anuken:jabel:$jabelVersion'
-    compileOnly "com.github.Anuken.MindustryJitpack:$mindustryVersion"
-    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
+dependencies {
+    annotationProcessor "com.github.Anuken:jabel:${jabelVersion}"
+    compileOnly "com.github.Anuken.Mindustry:core:${mindustryVersion}"
+    compileOnly "com.github.Anuken.Arc:arc-core:${mindustryVersion}"
 }
 
-jar.archiveFileName.set("raw-$artifactFilename")
+jar {
+    archiveFileName = "raw-${artifactFilename}"
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 def isWindows = System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")
 
+task dexify(type: Jar) {
+    archiveFileName = artifactFilename
+    destinationDirectory = file("build/libs")
 
-task dexify(type: Jar){
-    archiveFileName.set(artifactFilename)
+    def jarArtifact = tasks.jar.archiveFile.get().asFile
+    def dexedArtifact = new File(temporaryDir, "dexed.jar")
 
-    final File jarArtifact = new File(tasks.jar.archiveFile.get().asFile.parent, "raw-$artifactFilename"),
-               dexedArtifact = new File(tasks.dexify.getTemporaryDir(), "dexed.jar")
+    doFirst {
+        // Verifikasi SDK root
+        if (!sdkRoot) {
+            throw new GradleException("ANDROID_HOME environment variable is not set!")
+        }
 
-    doFirst{
+        // Verifikasi file android.jar
+        def androidJar = new File("${sdkRoot}/platforms/android-${sdkVersion}/android.jar")
+        if (!androidJar.exists()) {
+            throw new GradleException("Android platform ${sdkVersion} not found at ${androidJar}")
+        }
+
         //collect dependencies needed for desugaring
-        def files = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File("$sdkRoot/platforms/android-$sdkVersion/android.jar")])
+        def files = (configurations.compileClasspath.files + 
+                    configurations.runtimeClasspath.files + 
+                    [androidJar]).collect { it.path }
 
-        exec{
+        exec {
             workingDir dexedArtifact.parent
-            def command = ["d8", "--min-api", "14"]
-            for(def file : files){
-                command += "--classpath"
-                command += file.path
+            def command = ["d8", 
+                         "--min-api", "14",
+                         "--lib", androidJar.path,
+                         "--release",
+                         "--output", dexedArtifact.path,
+                         jarArtifact.path]
+
+            files.each { path ->
+                command.add("--classpath")
+                command.add(path)
             }
 
-            command += ["--output", dexedArtifact, jarArtifact]
-
-            if(isWindows){
+            if (isWindows) {
                 commandLine("cmd", "/c", *command)
-            }else{
+            } else {
                 commandLine(*command)
             }
         }
@@ -66,24 +90,36 @@ task dexify(type: Jar){
     from(zipTree(jarArtifact), zipTree(dexedArtifact))
 }
 
-task buildDex dependsOn "build", "dexify"
+task buildDex {
+    dependsOn "build", "dexify"
+}
 
-task buildMove(dependsOn: build){
-    doLast{
-        copy{
-            from "build/libs/raw-BetaMindy.jar"
-            into System.getenv("destination")
+task buildMove(dependsOn: build) {
+    doLast {
+        def destination = System.getenv("destination")
+        if (!destination) {
+            throw new GradleException("destination environment variable is not set!")
+        }
+        
+        copy {
+            from "build/libs/raw-${artifactFilename}"
+            into destination
         }
     }
 }
 
-tasks.withType(JavaCompile){
-    targetCompatibility = 8
-    sourceCompatibility = JavaVersion.VERSION_17
+tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-    options.compilerArgs += ["-Xlint:deprecation"]
-    if(JavaVersion.current() != JavaVersion.VERSION_1_8){
-        options.compilerArgs.addAll(['--release', '8'])
-    }
-    compileJava.options.fork = true
+    
+    // Pengaturan compatibility
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_1_8
+    
+    options.compilerArgs += [
+        "-Xlint:deprecation",
+        "--release", "8"
+    ]
+    
+    // Fork compilation
+    options.fork = true
 }
