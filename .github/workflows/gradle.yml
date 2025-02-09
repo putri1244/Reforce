@@ -19,9 +19,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      
 
       - name: Build Desktop Mod
         run: |
+          chmod +x gradlew
           ./gradlew desktop:jar
           mkdir -p artifact
           cp desktop/build/libs/desktop.jar artifact/my-mod-desktop.jar
@@ -49,6 +51,7 @@ jobs:
 
       - name: Build Android Mod
         run: |
+          chmod +x gradlew
           ./gradlew android:jar
           mkdir -p artifact
           cp android/build/libs/android.jar artifact/my-mod-android.jar
