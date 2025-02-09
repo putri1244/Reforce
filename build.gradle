@@ -1,45 +1,81 @@
-    plugins {
-    id 'java'
-    id 'io.github.liplum.mgpp' version '1.3.2' // Mindustry Gradle Plugin
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+    }
 }
 
-group 'galaxy'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-    maven { url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository' }
-    maven { url 'https://jitpack.io' }
+plugins {
+    id "java"
 }
 
-dependencies {
-    implementation 'org.jetbrains:annotations:24.0.1'
-    compileOnly "com.github.Anuken.Arc:arc-core:v146" // Mindustry core dependency
-    compileOnly "com.github.Anuken.Mindustry:core:v146" // Mindustry core dependency
+allprojects {
+    apply plugin: "java"
+    
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://jitpack.io" }
+    }
+
+    ext {
+        mindustryVersion = "v145"
+        arcVersion = "v145"
+    }
 }
 
-ext {
-    mindustryVersion = 'v146' // Version of Mindustry your mod is compatible with
+// Core mod (shared code)
+project(":core") {
+    dependencies {
+        implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
+        implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    }
+
+    task jarAndroid {
+        dependsOn jar
+    }
 }
 
-sourceSets {
-    main.java.srcDirs = ['src/main/java']
+// Desktop build
+project(":desktop") {
+    apply plugin: "application"
+    
+    dependencies {
+        implementation project(":core")
+        implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
+        implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    }
+
+    task runDesktop(type: JavaExec) {
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = "mindustry.desktop.DesktopLauncher"
+        standardInput = System.in
+        workingDir = rootProject.projectDir
+    }
+
+    jar {
+        archiveFileName = "${modName}-desktop.jar"
+        from {
+            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs.addAll(['--release', '17']) // Java 8 compatibility
-}
+// Android build
+project(":android") {
+    dependencies {
+        implementation project(":core")
+        implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
+        implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    }
 
-task buildAndroid(type: Exec) {
-    commandLine 'gradlew', 'assembleDebug' // Adjust as necessary for your Android build
-}
-
-task buildDesktop(type: JavaExec) {
-    main = 'com.yourname.mindustrymod.Main' // Replace with your main class
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-task buildAll {
-    dependsOn buildAndroid, buildDesktop
+    task jarAndroid(type: Jar) {
+        archiveFileName = "${modName}-android.jar"
+        from {
+            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
