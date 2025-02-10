@@ -1,4 +1,4 @@
-package galaxy;
+package reforce;
 
 import mindustry.mod.Mod;
 import arc.*;
@@ -10,15 +10,15 @@ import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import galaxy.content.*;
+import reforce.content.*;
 
-public class GalaxyUnivers extends Mod {
+public class ReForce extends Mod {
     @Override
     public void loadContent() {
         // Load konten mod
-	GalaxyBlock.load();
-	GalaxyItems.load();
-    GalaxyTechTree.load();
+	RFBlock.load();
+	RFItems.load();
+  RFTechTree.load();
 
     }
 }

@@ -1,7 +1,7 @@
-package galaxy.content;
+package reforce.content;
 
 import arc.struct.*;
-import galaxy.util.*;
+import reforce.util.*;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.ctype.*;
@@ -13,18 +13,18 @@ import mindustry.world.blocks.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.TechTree.*;
-import static galaxy.content.GalaxyBlock.*;
-import static galaxy.content.GalaxyItems.*;
+import static reforce.content.RFBlock.*;
+import static reforce.content.RFItems.*;
 
 
 
 
-public class GalaxyTechTree {
+public class RFTechTree {
     static TechTree.TechNode context = null;
     public static void load() {
         margeNode(titaniumWall, () -> {
             node(otherBlock, () -> {
-                node(CBlock);
+                node(RFBlocks);
             });
         });
         

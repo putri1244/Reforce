@@ -1,4 +1,4 @@
-package galaxy.graphics;
+package reforce.graphics;
 
 import arc.graphics.Color;
 import mindustry.graphics.*;

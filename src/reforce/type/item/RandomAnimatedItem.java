@@ -1,4 +1,4 @@
-package galaxy.type.item;
+package reforce.type.item;
 
 import arc.*;
 import arc.graphics.*;

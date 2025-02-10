@@ -2,13 +2,13 @@
 displayName: "A First Java Mod"
 
 #the internal name of your mod
-name: "galaxy"
+name: "RF Reforce"
 
 #your name
 author: "putri1244"
 
 #the fully qualified main class of the mod
-main: "galaxy.GalaxyUnivers"
+main: "reforce.ReForce"
 
 #the mod description as seen in the mod dialog
 description: "A Mindustry Java mod template."

@@ -12,7 +12,7 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package galaxy.graphics;
+package reforce.graphics;
 
 import arc.*;
 import arc.graphics.*;
@@ -21,7 +21,7 @@ import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-//import galaxy.ui.*;
+//import reforce.ui.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -30,7 +30,7 @@ import mindustry.graphics.MultiPacker.*;
 import mindustry.world.*;
 
 import static arc.graphics.g2d.Lines.*;
-import static galaxy.GalaxyUnivers.*;
+import static reforce.ReForce.*;
 import static mindustry.Vars.*;
 
 public class Drawm {

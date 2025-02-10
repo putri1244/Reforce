@@ -1,4 +1,4 @@
-package galaxy.content;
+package reforce.content;
 
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -27,13 +27,13 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-public class GalaxyBlock {
-    public static Block CBlock, otherBlock;
+public class RFBlock {
+    public static Block RFBlocks, otherBlock;
     // Tambahkan block baru
     
     public static void load() {
-        CBlock = new Block("CBlock") {{
-            health = 100;
+        RFBlock = new Block("RFBlock") {{
+            health = 3000;
             size = 1;
             requirements(Category.defense, ItemStack.with(
                 Items.copper, 30

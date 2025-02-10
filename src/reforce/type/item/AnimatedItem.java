@@ -1,10 +1,10 @@
-package galaxy.type.item;
+package reforce.type.item;
 
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
-import galaxy.graphics.*;
+import reforce.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 

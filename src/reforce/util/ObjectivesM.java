@@ -1,4 +1,4 @@
-package galaxy.util;
+package reforce.util;
 
 import arc.*;
 import mindustry.game.*;
