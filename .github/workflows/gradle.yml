@@ -20,20 +20,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       
-
-      - name: Build Desktop Mod
-        run: |
-          chmod +x gradlew
-          ./gradlew desktop:jar
-          mkdir -p artifact
-          cp desktop/build/libs/desktop.jar artifact/my-mod-desktop.jar
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: desktop-mod
-          path: artifact/*.jar
-
   build-android:
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +38,7 @@ jobs:
       - name: Build Android Mod
         run: |
           chmod +x gradlew
-          ./gradlew android:jar
+          ./gradlew deploy
           mkdir -p artifact
           cp android/build/libs/android.jar artifact/my-mod-android.jar
 
