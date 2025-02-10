@@ -35,13 +35,13 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build Android Mod
+      - name: Build mod jar
         run: |
-          chmod +x gradlew
-          ./gradlew deploy
-          
-      - name: Upload Artifact
+         chmod +x ./gradlew
+         ./gradlew deploy
+      - name: Upload built jar file
         uses: actions/upload-artifact@v4
         with:
-          name: android-mod
-          path: artifact/*
+          name: ${{ github.event.repository.name }}
+          path: build/libs/${{ github.event.repository.name }}.jar
+        
