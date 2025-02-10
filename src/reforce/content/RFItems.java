@@ -10,10 +10,10 @@ import mindustry.world.meta.*;
 
 
 public class RFItems {
-    public static Item Rfrium;
+    public static Item Reforium;
     
     public static void load() {
-        Rfrium = new AnimatedItem("Reforium", Color.valueOf("00ffff")) {{
+        Reforium = new AnimatedItem("Reforiums", Color.valueOf("00ffff")) {{
             hardness = 15;
             cost = 0.1f;
             charge = 10.24f;

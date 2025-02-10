@@ -32,7 +32,8 @@ public class RFBlock {
     // Tambahkan block baru
     
     public static void load() {
-        RFBlock = new Block("RFBlock") {{
+        RFBlocks = new Block("RFblock") {{
+            name = "RF Block";
             health = 3000;
             size = 1;
             requirements(Category.defense, ItemStack.with(
@@ -40,7 +41,7 @@ public class RFBlock {
             ));
         }};
         
-        otherBlock = new Block("otherBlock") {{  // Definisikan block baru
+        otherBlock = new Block("blocksd") {{  // Definisikan block baru
             health = 150;
             size = 2;
             requirements(Category.defense, ItemStack.with(
