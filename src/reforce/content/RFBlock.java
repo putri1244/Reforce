@@ -32,7 +32,7 @@ public class RFBlock {
     // Tambahkan block baru
     
     public static void load() {
-        RFBlock = new Block("RFBlock") {{
+        RFBlocks = new Block("RFBlock") {{
             health = 3000;
             size = 1;
             requirements(Category.defense, ItemStack.with(
