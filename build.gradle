@@ -55,7 +55,7 @@ project(":desktop") {
     }
 
     jar {
-        archiveFileName = "${modName}-desktop.jar"
+        archiveFileName = "Reforce-desktop.jar"
         from {
             configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         }
@@ -72,7 +72,7 @@ project(":android") {
     }
 
     task jarAndroid(type: Jar) {
-        archiveFileName = "${modName}-android.jar"
+        archiveFileName = "Reforce-android.jar"
         from {
             configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         }
