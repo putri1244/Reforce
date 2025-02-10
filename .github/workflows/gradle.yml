@@ -39,12 +39,7 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew deploy
-          mkdir -p artifact
-          cp android/build/libs/android.jar artifact/my-mod-android.jar
-
-          # Konversi ke DEX (opsional)
-          $ANDROID_HOME/build-tools/34.0.0/d8 artifact/my-mod-android.jar --output artifact/
-
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
