@@ -1,9 +1,9 @@
 package reforce.content;
 
 import arc.*;
+import arc.core.*;
 import arc.graphics.*;
 import mindustry.*;
-import mindustry.core.Time;
 import reforce.graphics.*;
 import reforce.type.item.*;
 import mindustry.content.*;
@@ -24,11 +24,11 @@ public class RFItems {
             // Properties lain
          }};
          if(!Vars.headless){
-   	    for(Item i : Vars.content.items()){
-             if(i instanceof AnimatedItem){
-             Time.run(0f, () -> ((AnimatedItem) i).update());
-        }
-    }
-}
+           for(Item i : Vars.content.items()){
+           if(i instanceof AnimatedItem){
+              arc.Core.app.post(() -> ((AnimatedItem) i).update());
+           }
+         }
+       }
     }
 }
