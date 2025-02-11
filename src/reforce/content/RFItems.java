@@ -21,6 +21,13 @@ public class RFItems {
             transition = 5;
             animDelay = 4f;
             // Properties lain
-        }};
+         }};
+        if(!Vars.headless){
+            for(Item i : Vars.content.items()){
+                if(i instanceof AnimatedItem){
+                    Events.run(EventType.Trigger.update, ((AnimatedItem) i)::update);
+                }
+            }
+        }
     }
 }
