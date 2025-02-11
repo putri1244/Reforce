@@ -8,7 +8,8 @@ import reforce.type.item.*;
 import mindustry.content.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
-import arc.Events.*;
+import arc.Events;
+import arc.Events.Trigger;
 
 public class RFItems {
     public static Item Reforium;
