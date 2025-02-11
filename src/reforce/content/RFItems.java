@@ -8,8 +8,6 @@ import reforce.type.item.*;
 import mindustry.content.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
-import arc.Events;
-import arc.Events.Trigger;
 
 public class RFItems {
     public static Item Reforium;
@@ -24,12 +22,12 @@ public class RFItems {
             animDelay = 4f;
             // Properties lain
          }};
-        if(!Vars.headless){
-            for(Item i : Vars.content.items()){
-                if(i instanceof AnimatedItem){
-                    Events.run(EventType.Trigger.update, ((AnimatedItem) i)::update);
-                }
-            }
+         if(!Vars.headless){
+   	    for(Item i : Vars.content.items()){
+             if(i instanceof AnimatedItem){
+             Time.run(0f, () -> ((AnimatedItem) i).update());
         }
+    }
+}
     }
 }
