@@ -1,7 +1,6 @@
 package reforce.content;
 
 import arc.*;
-import arc.core.*;
 import arc.graphics.*;
 import mindustry.*;
 import reforce.graphics.*;
