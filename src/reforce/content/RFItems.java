@@ -3,6 +3,7 @@ package reforce.content;
 import arc.*;
 import arc.graphics.*;
 import mindustry.*;
+import mindustry.core.*;
 import reforce.graphics.*;
 import reforce.type.item.*;
 import mindustry.content.*;
